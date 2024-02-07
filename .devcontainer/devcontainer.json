@@ -1,0 +1,52 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/debian
+{
+	"name": "Debian",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/vscode/devcontainers/python:3.11-bullseye",
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/apt-packages:1": {
+			"clean_ppas": true,
+			"preserve_apt_list": true,
+			"packages": "build-essential",
+			"ppas": "ppa:deadsnakes/ppa"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cpptools-extension-pack",
+				"twxs.cmake",
+				"ms-vscode.cmake-tools",
+				"ms-azuretools.vscode-docker",
+				"EditorConfig.EditorConfig",
+				"mhutchie.git-graph",
+				"eamodio.gitlens",
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"espressif.esp-idf-extension"
+			]
+		}
+	},
+	"remoteUser": "vscode",
+	"mounts": [
+		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly",
+		"source=/home/${localEnv:USER}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached"
+	],
+	"runArgs": [],
+	"postCreateCommand": ". ./.devcontainer/postCreateCommand.sh"
+	
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
