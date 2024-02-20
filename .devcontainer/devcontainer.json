@@ -1,52 +1,42 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/debian
 {
-	"name": "Debian",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/vscode/devcontainers/python:3.11-bullseye",
-	"features": {
-		"ghcr.io/devcontainers-contrib/features/apt-packages:1": {
-			"clean_ppas": true,
-			"preserve_apt_list": true,
-			"packages": "build-essential",
-			"ppas": "ppa:deadsnakes/ppa"
-		}
+	"name": "ESP-IDF",
+	"build": {
+		"dockerfile": "Dockerfile"
 	},
 	"customizations": {
 		"vscode": {
+			// Pre-configure ESP-IDF extension
+			"settings": {
+				"idf.showOnboardingOnInit": false,
+				"idf.toolsPath": "/opt/esp",
+				"idf.espIdfPath": "/opt/esp/idf",
+				"idf.pythonBinPath": "/opt/esp/python_env/idf4.2_py3.6_env/bin/python",
+				"idf.port": "rfc2217://host.docker.internal:4000?ign_set_control",
+				"terminal.integrated.shell.linux": "/bin/bash"
+			},
+			// Install relevant extensions in the dev container
 			"extensions": [
-				"ms-vscode.cpptools",
-				"ms-vscode.cpptools-extension-pack",
-				"twxs.cmake",
+				"espressif.esp-idf-extension",
 				"ms-vscode.cmake-tools",
-				"ms-azuretools.vscode-docker",
-				"EditorConfig.EditorConfig",
+				"ms-vscode.cpptools",
 				"mhutchie.git-graph",
+				"donjayamanne.githistory",
 				"eamodio.gitlens",
-				"ms-python.python",
 				"ms-python.vscode-pylance",
-				"espressif.esp-idf-extension"
+				"ms-python.python",
+				"ms-python.debugpy",
+				"donjayamanne.python-environment-manager",
+				"donjayamanne.python-extension-pack",
+				"ms-vscode.cpptools-extension-pack",
+				"ms-vscode.cpptools-themes"
 			]
 		}
 	},
-	"remoteUser": "vscode",
-	"mounts": [
-		"type=bind,source=/home/${localEnv:USER}/.ssh,target=/home/vscode/.ssh,readonly",
-		"source=/home/${localEnv:USER}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached"
-	],
+	"userEnvProbe": "loginInteractiveShell",
+	// Forward serial device to enable flash & monitor
 	"runArgs": [],
-	"postCreateCommand": ". ./.devcontainer/postCreateCommand.sh"
-	
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	"mounts": [
+		"source=/home/${localEnv:USER}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
+		//"source=/home/${localEnv:USER}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
+	]
 }
